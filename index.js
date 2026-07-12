@@ -12,45 +12,76 @@ const suggestion = require("./commands/suggestion");
 const interactionEvent = require("./events/interactionCreate");
 
 
+
 const client = new Client({
+
     intents: [
+
         GatewayIntentBits.Guilds
+
     ]
+
 });
+
+
+// Permet aux autres fichiers d'utiliser le bot
+global.client = client;
 
 
 
 client.once("ready", async () => {
 
+
     console.log(`🏛️ Architecte connecté : ${client.user.tag}`);
 
 
+
     const rest = new REST({
+
         version: "10"
+
     }).setToken(process.env.TOKEN);
 
 
 
+
     await rest.put(
-        Routes.applicationCommands(process.env.CLIENT_ID),
+
+        Routes.applicationCommands(
+            process.env.CLIENT_ID
+        ),
+
         {
+
             body: [
+
                 suggestion.data
+
             ]
+
         }
+
     );
 
 
-    console.log("✅ Commandes installées");
+
+    console.log("✅ Commande /suggestion installée");
 
 });
 
 
 
+
+
 client.on(
+
     "interactionCreate",
+
     interactionEvent
+
 );
+
+
 
 
 
